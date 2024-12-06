@@ -37,6 +37,10 @@ struct Share_My_StatusApp: App {
     @State private var showMainWindow = true
     
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var latestReport: MusicData? {
+        return nowPlayingVM.reportHistory.first
+    }
     
     init() {
         let settingsInstance = Settings()
@@ -81,6 +85,18 @@ struct Share_My_StatusApp: App {
                         Text(nowPlayingVM.artist)
                             .font(.system(size: 12))
                             .foregroundColor(.secondary)
+                    }
+                }
+                
+                Divider()
+                
+                if let latestReport {
+                    VStack(alignment: .leading) {
+                        Text("最新上报结果")
+                            .font(.headline)
+                        Text("时间: \(latestReport.timestamp ?? "未知")")
+                        Text("结果: \(latestReport.result ?? "未知")")
+                            .foregroundColor(latestReport.result == "failed" ? .red : .green)
                     }
                 }
                 
