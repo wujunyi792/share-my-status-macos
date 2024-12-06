@@ -8,6 +8,7 @@ class NowPlayingViewModel: ObservableObject {
     @Published var album: String = "未知专辑"
     @Published var duration: String = "未知时长"
     @Published var artwork: NSImage? = nil
+    @Published var reportHistory: [MusicData] = []
 
     private var timer: DispatchSourceTimer?
     private var settings: Settings
@@ -99,20 +100,52 @@ class NowPlayingViewModel: ObservableObject {
             artworkBase64 = ""
         }
         
-        let musicData = MusicData(
+        let initialMusicData = MusicData(
             artist: artist,
             title: title,
             album: album,
             duration: duration,
-            artwork: artworkBase64
+            artwork: artworkBase64,
+            timestamp: nil,
+            result: nil,
+            errorMessage: nil
         )
         
         Task {
+            let musicData = initialMusicData
+            let result: MusicData
             do {
                 try await NetworkService.shared.sendMusicActivity(settings: settings, musicData: musicData)
-                print("发送音乐更新成功")
+                result = MusicData(
+                    artist: musicData.artist,
+                    title: musicData.title,
+                    album: musicData.album,
+                    duration: musicData.duration,
+                    artwork: musicData.artwork,
+                    timestamp: Date().ISO8601Format(),
+                    result: "success",
+                    errorMessage: nil
+                )
             } catch {
                 print("发送音乐更新失败: \(error)")
+                result = MusicData(
+                    artist: musicData.artist,
+                    title: musicData.title,
+                    album: musicData.album,
+                    duration: musicData.duration,
+                    artwork: musicData.artwork,
+                    timestamp: Date().ISO8601Format(),
+                    result: "failed",
+                    errorMessage: error.localizedDescription
+                )
+            }
+            
+            // 添加到上报历史
+            await MainActor.run {
+                self.reportHistory.insert(result, at: 0)
+                if self.reportHistory.count > 100 {
+                    self.reportHistory.removeLast()
+                }
             }
         }
     }

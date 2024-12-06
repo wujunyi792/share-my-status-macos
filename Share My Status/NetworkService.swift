@@ -1,6 +1,17 @@
 import Foundation
 import Alamofire
 
+enum NetworkError: LocalizedError {
+    case serverError(description: String)
+    
+    var errorDescription: String? {
+        switch self {
+        case .serverError(let description):
+            return description
+        }
+    }
+}
+
 class NetworkService {
     static let shared = NetworkService()
     private init() {}
@@ -36,14 +47,15 @@ class NetworkService {
             .responseData { response in
                 switch response.result {
                 case .success(_):
-                    print("音乐状态更新成功")
                     continuation.resume(returning: ())
                 case .failure(let error):
-                    print("音乐状态更新失败: \(error.localizedDescription)")
+                    let errorDescription = error.localizedDescription
                     if let data = response.data, let str = String(data: data, encoding: .utf8) {
-                        print("服务器响应: \(str)")
+                        let combinedDescription = "\(errorDescription) - 服务器响应: \(str)"
+                        continuation.resume(throwing: NetworkError.serverError(description: combinedDescription))
+                    } else {
+                        continuation.resume(throwing: error)
                     }
-                    continuation.resume(throwing: error)
                 }
             }
         }

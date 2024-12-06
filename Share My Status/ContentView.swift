@@ -58,6 +58,13 @@ struct ContentView: View {
                     Label("设置", systemImage: "gear")
                 }
                 .tag(1)
+
+            // 上报历史标签页
+            ReportHistoryView(nowPlayingVM: nowPlayingVM)
+                .tabItem {
+                    Label("上报历史", systemImage: "clock")
+                }
+                .tag(2)
         }
         .padding()
     }
