@@ -1,0 +1,592 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		33BFBD7B2D037D4A00053DAF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 33BFBD7A2D037D4A00053DAF /* Alamofire */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3334FADE2D00E36600D48B2E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3334FAC22D00E36400D48B2E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3334FAC92D00E36400D48B2E;
+			remoteInfo = "Share My Status";
+		};
+		3334FAE82D00E36600D48B2E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3334FAC22D00E36400D48B2E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3334FAC92D00E36400D48B2E;
+			remoteInfo = "Share My Status";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		3334FACA2D00E36400D48B2E /* Share My Status.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Share My Status.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3334FADD2D00E36600D48B2E /* Share My StatusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Share My StatusTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3334FAE72D00E36600D48B2E /* Share My StatusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Share My StatusUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		3334FACC2D00E36400D48B2E /* Share My Status */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Share My Status";
+			sourceTree = "<group>";
+		};
+		3334FAE02D00E36600D48B2E /* Share My StatusTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Share My StatusTests";
+			sourceTree = "<group>";
+		};
+		3334FAEA2D00E36600D48B2E /* Share My StatusUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Share My StatusUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3334FAC72D00E36400D48B2E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33BFBD7B2D037D4A00053DAF /* Alamofire in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3334FADA2D00E36600D48B2E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3334FAE42D00E36600D48B2E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3334FAC12D00E36400D48B2E = {
+			isa = PBXGroup;
+			children = (
+				3334FACC2D00E36400D48B2E /* Share My Status */,
+				3334FAE02D00E36600D48B2E /* Share My StatusTests */,
+				3334FAEA2D00E36600D48B2E /* Share My StatusUITests */,
+				3334FACB2D00E36400D48B2E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3334FACB2D00E36400D48B2E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3334FACA2D00E36400D48B2E /* Share My Status.app */,
+				3334FADD2D00E36600D48B2E /* Share My StatusTests.xctest */,
+				3334FAE72D00E36600D48B2E /* Share My StatusUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3334FAC92D00E36400D48B2E /* Share My Status */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3334FAF12D00E36600D48B2E /* Build configuration list for PBXNativeTarget "Share My Status" */;
+			buildPhases = (
+				3334FAC62D00E36400D48B2E /* Sources */,
+				3334FAC72D00E36400D48B2E /* Frameworks */,
+				3334FAC82D00E36400D48B2E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3334FACC2D00E36400D48B2E /* Share My Status */,
+			);
+			name = "Share My Status";
+			packageProductDependencies = (
+				33BFBD7A2D037D4A00053DAF /* Alamofire */,
+			);
+			productName = "Share My Status";
+			productReference = 3334FACA2D00E36400D48B2E /* Share My Status.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3334FADC2D00E36600D48B2E /* Share My StatusTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3334FAF42D00E36600D48B2E /* Build configuration list for PBXNativeTarget "Share My StatusTests" */;
+			buildPhases = (
+				3334FAD92D00E36600D48B2E /* Sources */,
+				3334FADA2D00E36600D48B2E /* Frameworks */,
+				3334FADB2D00E36600D48B2E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3334FADF2D00E36600D48B2E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				3334FAE02D00E36600D48B2E /* Share My StatusTests */,
+			);
+			name = "Share My StatusTests";
+			packageProductDependencies = (
+			);
+			productName = "Share My StatusTests";
+			productReference = 3334FADD2D00E36600D48B2E /* Share My StatusTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		3334FAE62D00E36600D48B2E /* Share My StatusUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3334FAF72D00E36600D48B2E /* Build configuration list for PBXNativeTarget "Share My StatusUITests" */;
+			buildPhases = (
+				3334FAE32D00E36600D48B2E /* Sources */,
+				3334FAE42D00E36600D48B2E /* Frameworks */,
+				3334FAE52D00E36600D48B2E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3334FAE92D00E36600D48B2E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				3334FAEA2D00E36600D48B2E /* Share My StatusUITests */,
+			);
+			name = "Share My StatusUITests";
+			packageProductDependencies = (
+			);
+			productName = "Share My StatusUITests";
+			productReference = 3334FAE72D00E36600D48B2E /* Share My StatusUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3334FAC22D00E36400D48B2E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
+				TargetAttributes = {
+					3334FAC92D00E36400D48B2E = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					3334FADC2D00E36600D48B2E = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 3334FAC92D00E36400D48B2E;
+					};
+					3334FAE62D00E36600D48B2E = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 3334FAC92D00E36400D48B2E;
+					};
+				};
+			};
+			buildConfigurationList = 3334FAC52D00E36400D48B2E /* Build configuration list for PBXProject "Share My Status" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3334FAC12D00E36400D48B2E;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				33BFBD792D037D4A00053DAF /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 3334FACB2D00E36400D48B2E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3334FAC92D00E36400D48B2E /* Share My Status */,
+				3334FADC2D00E36600D48B2E /* Share My StatusTests */,
+				3334FAE62D00E36600D48B2E /* Share My StatusUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3334FAC82D00E36400D48B2E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3334FADB2D00E36600D48B2E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3334FAE52D00E36600D48B2E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3334FAC62D00E36400D48B2E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3334FAD92D00E36600D48B2E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3334FAE32D00E36600D48B2E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3334FADF2D00E36600D48B2E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3334FAC92D00E36400D48B2E /* Share My Status */;
+			targetProxy = 3334FADE2D00E36600D48B2E /* PBXContainerItemProxy */;
+		};
+		3334FAE92D00E36600D48B2E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3334FAC92D00E36400D48B2E /* Share My Status */;
+			targetProxy = 3334FAE82D00E36600D48B2E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		3334FAEF2D00E36600D48B2E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3334FAF02D00E36600D48B2E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_LSUIElement = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		3334FAF22D00E36600D48B2E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Share My Status/Share_My_Status.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Share My Status/Preview Content\"";
+				DEVELOPMENT_TEAM = YF8N4F37TF;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Share-My-Status-Info.plist";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "需要访问本地网络以连接服务器";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mjclouds.Share-My-Status";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		3334FAF32D00E36600D48B2E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Share My Status/Share_My_Status.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Share My Status/Preview Content\"";
+				DEVELOPMENT_TEAM = YF8N4F37TF;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Share-My-Status-Info.plist";
+				INFOPLIST_KEY_LSUIElement = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "需要访问本地网络以连接服务器";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mjclouds.Share-My-Status";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		3334FAF52D00E36600D48B2E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YF8N4F37TF;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mjclouds.Share-My-StatusTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Share My Status.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Share My Status";
+			};
+			name = Debug;
+		};
+		3334FAF62D00E36600D48B2E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YF8N4F37TF;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mjclouds.Share-My-StatusTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Share My Status.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Share My Status";
+			};
+			name = Release;
+		};
+		3334FAF82D00E36600D48B2E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YF8N4F37TF;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mjclouds.Share-My-StatusUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "Share My Status";
+			};
+			name = Debug;
+		};
+		3334FAF92D00E36600D48B2E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = YF8N4F37TF;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mjclouds.Share-My-StatusUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "Share My Status";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3334FAC52D00E36400D48B2E /* Build configuration list for PBXProject "Share My Status" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3334FAEF2D00E36600D48B2E /* Debug */,
+				3334FAF02D00E36600D48B2E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3334FAF12D00E36600D48B2E /* Build configuration list for PBXNativeTarget "Share My Status" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3334FAF22D00E36600D48B2E /* Debug */,
+				3334FAF32D00E36600D48B2E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3334FAF42D00E36600D48B2E /* Build configuration list for PBXNativeTarget "Share My StatusTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3334FAF52D00E36600D48B2E /* Debug */,
+				3334FAF62D00E36600D48B2E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3334FAF72D00E36600D48B2E /* Build configuration list for PBXNativeTarget "Share My StatusUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3334FAF82D00E36600D48B2E /* Debug */,
+				3334FAF92D00E36600D48B2E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		33BFBD792D037D4A00053DAF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		33BFBD7A2D037D4A00053DAF /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 33BFBD792D037D4A00053DAF /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 3334FAC22D00E36400D48B2E /* Project object */;
+}
