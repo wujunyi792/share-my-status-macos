@@ -35,7 +35,7 @@ class NetworkService {
             "Content-Type": "application/json"
         ]
         
-        print("正在发送请求到: \(settings.endpointURL)")
+//        print("正在发送请求到: \(settings.endpointURL)")
         
         return try await withCheckedThrowingContinuation { continuation in
             AF.request(settings.endpointURL,

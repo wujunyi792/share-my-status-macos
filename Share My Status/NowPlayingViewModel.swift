@@ -85,7 +85,7 @@ class NowPlayingViewModel: ObservableObject {
         guard title != previousTitle && title != "未知标题" else {
             return
         }
-        print("DEBUG: 当前标题: \(title)")
+//        print("DEBUG: 当前标题: \(title)")
         
         previousTitle = title
         
