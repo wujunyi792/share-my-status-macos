@@ -13,6 +13,12 @@ class NowPlayingViewModel: ObservableObject {
     private var timer: DispatchSourceTimer?
     private var settings: Settings
     private var previousTitle: String = ""
+    private let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm:ss"
+        formatter.timeZone = TimeZone(secondsFromGMT: 8 * 3600) // 设置为东八区
+        return formatter
+    }()
     
     init(settings: Settings) {
         self.settings = settings
@@ -106,7 +112,7 @@ class NowPlayingViewModel: ObservableObject {
             album: album,
             duration: duration,
             artwork: artworkBase64,
-            timestamp: nil,
+            timestamp: timeFormatter.string(from: Date()),
             result: nil,
             errorMessage: nil
         )
@@ -122,7 +128,7 @@ class NowPlayingViewModel: ObservableObject {
                     album: musicData.album,
                     duration: musicData.duration,
                     artwork: musicData.artwork,
-                    timestamp: Date().ISO8601Format(),
+                    timestamp: musicData.timestamp,
                     result: "success",
                     errorMessage: nil
                 )
@@ -134,7 +140,7 @@ class NowPlayingViewModel: ObservableObject {
                     album: musicData.album,
                     duration: musicData.duration,
                     artwork: musicData.artwork,
-                    timestamp: Date().ISO8601Format(),
+                    timestamp: musicData.timestamp,
                     result: "failed",
                     errorMessage: error.localizedDescription
                 )
