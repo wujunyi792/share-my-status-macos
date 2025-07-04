@@ -27,15 +27,60 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2B59FA0B2E17C8AF00436603 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2B59FA102E17F38D00436603 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3334FACA2D00E36400D48B2E /* Share My Status.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Share My Status.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3334FADD2D00E36600D48B2E /* Share My StatusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Share My StatusTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3334FAE72D00E36600D48B2E /* Share My StatusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Share My StatusUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		2B59FA1D2E17FB6800436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 2B59FA0B2E17C8AF00436603 /* CopyFiles */;
+			membershipExceptions = (
+				"Build_Dependencies/mediaremote-adapter.pl",
+			);
+		};
+		2B59FA1F2E17FB7000436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			attributesByRelativePath = {
+				Build_Dependencies/MediaRemoteAdapter.framework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
+			};
+			buildPhase = 2B59FA102E17F38D00436603 /* CopyFiles */;
+			membershipExceptions = (
+				Build_Dependencies/MediaRemoteAdapter.framework,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3334FACC2D00E36400D48B2E /* Share My Status */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2B59FA1D2E17FB6800436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */,
+				2B59FA1F2E17FB7000436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */,
+			);
 			path = "Share My Status";
 			sourceTree = "<group>";
 		};
@@ -107,6 +152,8 @@
 				3334FAC62D00E36400D48B2E /* Sources */,
 				3334FAC72D00E36400D48B2E /* Frameworks */,
 				3334FAC82D00E36400D48B2E /* Resources */,
+				2B59FA0B2E17C8AF00436603 /* CopyFiles */,
+				2B59FA102E17F38D00436603 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -413,6 +460,10 @@
 				DEVELOPMENT_TEAM = YF8N4F37TF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Share-My-Status-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Share My Status";
@@ -425,7 +476,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1_beta;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mjclouds.Share-My-Status";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -448,6 +499,10 @@
 				DEVELOPMENT_TEAM = YF8N4F37TF;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Share-My-Status-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Share My Status";
@@ -460,7 +515,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1_beta;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mjclouds.Share-My-Status";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

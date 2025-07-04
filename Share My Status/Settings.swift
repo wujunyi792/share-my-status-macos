@@ -19,4 +19,4 @@ class Settings: ObservableObject {
         self.apiKey = UserDefaults.standard.string(forKey: "apiKey") ?? ""
         self.endpointURL = UserDefaults.standard.string(forKey: "endpointURL") ?? ""
     }
-} 
+}

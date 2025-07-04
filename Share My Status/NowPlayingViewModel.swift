@@ -2,6 +2,20 @@ import Foundation
 import SwiftUI
 import Combine
 
+struct MediaInfo: Codable {
+    let artist: String?
+    let title: String?
+    let album: String?
+    let duration: Double?
+    let elapsedTime: Double?
+    let playing: Bool?
+    let bundleIdentifier: String?
+    let playbackRate: Double?
+    let artworkMimeType: String?
+    let artworkData: String?
+//    let artworkData: NSImage?
+}
+
 class NowPlayingViewModel: ObservableObject {
     @Published var artist: String = "未知艺术家"
     @Published var title: String = "未知标题"
@@ -48,41 +62,59 @@ class NowPlayingViewModel: ObservableObject {
     func fetchNowPlayingInfo() {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
-
-            guard let bundle = CFBundleCreate(kCFAllocatorDefault, NSURL(fileURLWithPath: "/System/Library/PrivateFrameworks/MediaRemote.framework")) else {
-                NSLog("无法加载 MediaRemote 框架")
+            let bundle = Bundle.main.bundlePath
+            
+            // .pl 文件路径（在 Resources 目录中）
+            let perlScriptPath = "\(bundle)/Contents/Resources/mediaremote-adapter.pl"
+            
+            // .framework 文件路径（在 Frameworks 目录中）
+            let frameworkPath = "\(bundle)/Contents/Frameworks/MediaRemoteAdapter.framework"
+            
+            // 验证文件存在
+            let fileManager = FileManager.default
+            if !fileManager.fileExists(atPath: perlScriptPath) || !fileManager.fileExists(atPath: frameworkPath) {
                 return
             }
+            
+            // 执行任务
+            let task = Process()
+            task.launchPath = "/usr/bin/perl"
+            task.arguments = [perlScriptPath, frameworkPath, "get"]
+            let pipe = Pipe()
+            task.standardOutput = pipe
+            
+            do {
+                try task.run()
+                let data = pipe.fileHandleForReading.readDataToEndOfFile()
+                task.waitUntilExit()
 
-            guard let MRMediaRemoteGetNowPlayingInfoPointer = CFBundleGetFunctionPointerForName(bundle, "MRMediaRemoteGetNowPlayingInfo" as CFString) else {
-                NSLog("无法获取 MRMediaRemoteGetNowPlayingInfo 函数指针")
-                return
-            }
-            typealias MRMediaRemoteGetNowPlayingInfoFunction = @convention(c) (DispatchQueue, @escaping ([String: Any]) -> Void) -> Void
-            let MRMediaRemoteGetNowPlayingInfo = unsafeBitCast(MRMediaRemoteGetNowPlayingInfoPointer, to: MRMediaRemoteGetNowPlayingInfoFunction.self)
+                let decoder = JSONDecoder()
+                if let mediaInfo = try? decoder.decode(MediaInfo.self, from: data) {
+                    DispatchQueue.main.async {
+                        self.artist = mediaInfo.artist ?? "未知艺术家"
+                        self.title = mediaInfo.title ?? "未知标题"
+                        self.album = mediaInfo.album ?? "未知专辑"
+                        if let duration = mediaInfo.duration {
+                            let formatter = DateComponentsFormatter()
+                            formatter.allowedUnits = [.minute, .second]
+                            formatter.unitsStyle = .positional
+                            formatter.zeroFormattingBehavior = .pad
+                            self.duration = formatter.string(from: TimeInterval(duration)) ?? "未知时长"
+                        } else {
+                            self.duration = "未知时长"
+                        }
+                        if let artworkBase64 = mediaInfo.artworkData,
+                           let artworkData = Data(base64Encoded: artworkBase64) {
+                            self.artwork = NSImage(data: artworkData)
+                        } else {
+                            self.artwork = nil
+                        }
 
-            MRMediaRemoteGetNowPlayingInfo(DispatchQueue.global(qos: .background)) { [weak self] information in
-                guard let self = self else { return }
-
-                DispatchQueue.main.async {
-                    if let artist = information["kMRMediaRemoteNowPlayingInfoArtist"] as? String {
-                        self.artist = artist
+                        self.sendMusicUpdate()
                     }
-                    if let title = information["kMRMediaRemoteNowPlayingInfoTitle"] as? String {
-                        self.title = title
-                    }
-                    if let album = information["kMRMediaRemoteNowPlayingInfoAlbum"] as? String {
-                        self.album = album
-                    }
-                    if let duration = information["kMRMediaRemoteNowPlayingInfoDuration"] as? String {
-                        self.duration = duration
-                    }
-                    if let artworkData = information["kMRMediaRemoteNowPlayingInfoArtworkData"] as? Data {
-                        self.artwork = NSImage(data: artworkData)
-                    }
-
-                    self.sendMusicUpdate()
                 }
+            } catch {
+                NSLog("Failed to run perl script: \(error)")
             }
         }
     }
@@ -155,4 +187,4 @@ class NowPlayingViewModel: ObservableObject {
             }
         }
     }
-} 
+}
