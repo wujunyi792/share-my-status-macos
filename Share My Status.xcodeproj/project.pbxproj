@@ -54,15 +54,25 @@
 		3334FAE72D00E36600D48B2E /* Share My StatusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Share My StatusUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2B59FA492E18035300436603 /* Exceptions for "Share My Status" folder in "Share My Status" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Build_Dependencies/mediaremote-adapter.pl",
+			);
+			target = 3334FAC92D00E36400D48B2E /* Share My Status */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		2B59FA1D2E17FB6800436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */ = {
+		2B59FA462E1802B300436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			buildPhase = 2B59FA0B2E17C8AF00436603 /* CopyFiles */;
 			membershipExceptions = (
 				"Build_Dependencies/mediaremote-adapter.pl",
 			);
 		};
-		2B59FA1F2E17FB7000436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */ = {
+		2B59FA482E1802BB00436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
 				Build_Dependencies/MediaRemoteAdapter.framework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
@@ -78,8 +88,9 @@
 		3334FACC2D00E36400D48B2E /* Share My Status */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				2B59FA1D2E17FB6800436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */,
-				2B59FA1F2E17FB7000436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */,
+				2B59FA492E18035300436603 /* Exceptions for "Share My Status" folder in "Share My Status" target */,
+				2B59FA462E1802B300436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */,
+				2B59FA482E1802BB00436603 /* Exceptions for "Share My Status" folder in "Copy Files" phase from "Share My Status" target */,
 			);
 			path = "Share My Status";
 			sourceTree = "<group>";
@@ -463,6 +474,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
+					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Share-My-Status-Info.plist";
@@ -501,6 +513,7 @@
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
 					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
