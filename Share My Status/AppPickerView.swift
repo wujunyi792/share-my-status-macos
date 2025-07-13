@@ -78,11 +78,20 @@ struct AppPickerView: View {
             }
 
             HStack {
+                Button("全部移除") {
+                    blacklist.removeAll()
+                }
+                .buttonStyle(.bordered)
+                .tint(.red)
+                .controlSize(.extraLarge)
+
+                Spacer()
+
                 Button("完成") {
                     presentationMode.wrappedValue.dismiss()
                 }
                 .buttonStyle(.borderedProminent)
-                .controlSize(.large)
+                .controlSize(.extraLarge)
             }
             .padding()
         }

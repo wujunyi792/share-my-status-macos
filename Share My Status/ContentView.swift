@@ -25,48 +25,85 @@ struct ContentView: View {
             )
             .edgesIgnoringSafeArea(.all)
 
-            TabView(selection: $selectedTab) {
-                nowPlayingTab
-                    .tabItem {
-                        Label("正在播放", systemImage: "music.note")
-                    }
-                    .tag(0)
+            VStack(spacing: 0) {
+                customTabBar
+                    .padding([.horizontal, .top])
+                    .padding(.bottom, 8)
 
-                SettingsView(settings: settings)
-                    .tabItem {
-                        Label("设置", systemImage: "gearshape.fill")
-                    }
-                    .tag(1)
+                TabView(selection: $selectedTab) {
+                    nowPlayingTab
+                        .tag(0)
 
-                ReportHistoryView(nowPlayingVM: nowPlayingVM)
-                    .tabItem {
-                        Label("上报历史", systemImage: "clock.fill")
-                    }
-                    .tag(2)
+                    SettingsView(settings: settings)
+                        .tag(1)
+
+                    ReportHistoryView(nowPlayingVM: nowPlayingVM)
+                        .tag(2)
+                }
             }
-            .padding()
         }
         .frame(minWidth: 600, minHeight: 400)
     }
 
-    private var nowPlayingTab: some View {
-        VStack(spacing: 20) {
-            Text("正在播放")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundColor(.primary)
-
-            if nowPlayingVM.title.isEmpty || nowPlayingVM.artist.isEmpty {
-                emptyStateView
-            } else {
-                nowPlayingCard
-            }
-
+    private var customTabBar: some View {
+        HStack {
             Spacer()
-
-            reportingStatusView
+            HStack(spacing: 20) {
+                tabButton(title: "正在播放", systemImage: "music.note", tag: 0)
+                tabButton(title: "设置", systemImage: "gearshape.fill", tag: 1)
+                tabButton(title: "上报历史", systemImage: "clock.fill", tag: 2)
+            }
+            Spacer()
         }
-        .padding(30)
+        .frame(height: 40)
+    }
+
+    private func tabButton(title: String, systemImage: String, tag: Int) -> some View {
+        Button(action: {
+            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                selectedTab = tag
+            }
+        }) {
+            HStack(spacing: 8) {
+                Image(systemName: systemImage)
+                Text(title)
+            }
+            .font(.system(size: 14, weight: .medium))
+            .foregroundColor(selectedTab == tag ? .primary : .secondary)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
+            .background(
+                ZStack {
+                    if selectedTab == tag {
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .fill(Material.regular)
+                            .shadow(color: Color.black.opacity(0.1), radius: 5, y: 2)
+                    }
+                }
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
+        .scaleEffect(selectedTab == tag ? 1.03 : 1.0)
+    }
+
+    private var nowPlayingTab: some View {
+        VStack {
+            VStack(spacing: 15) {
+
+
+                if nowPlayingVM.title.isEmpty || nowPlayingVM.artist.isEmpty {
+                    emptyStateView
+                } else {
+                    nowPlayingCard
+                }
+
+                reportingControlsView
+            }
+            .padding(.top, 20)
+            Spacer()
+        }
+        .padding(.horizontal, 40)
+        .padding(.vertical, 20)
     }
 
     private var nowPlayingCard: some View {
@@ -80,15 +117,15 @@ struct ContentView: View {
                     .lineLimit(2)
                 
                 Text(nowPlayingVM.artist)
-                    .font(.headline)
+                    .font(.title3)
                     .foregroundColor(.secondary)
                 
                 Text(nowPlayingVM.album)
-                    .font(.subheadline)
+                    .font(.body)
                     .foregroundColor(.secondary)
                 
                 Text("时长: \(nowPlayingVM.duration)")
-                    .font(.caption)
+                    .font(.body)
                     .foregroundColor(.secondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -148,20 +185,14 @@ struct ContentView: View {
         )
     }
 
-    private var reportingStatusView: some View {
-        HStack {
-            Circle()
-                .fill(settings.isReportingEnabled ? Color.green : Color.red)
-                .frame(width: 10, height: 10)
-                .shadow(color: settings.isReportingEnabled ? .green : .red, radius: 5)
-            
-            Text(settings.isReportingEnabled ? "上报功能已开启" : "上报功能已关闭")
-                .font(.caption)
-                .foregroundColor(.secondary)
+    private var reportingControlsView: some View {
+        Toggle(isOn: $settings.isReportingEnabled) {
+            Text("开启音乐状态上报")
+                .font(.body)
         }
-        .padding(8)
-        .background(Material.thin)
-        .clipShape(Capsule())
+        .toggleStyle(.switch)
+        .controlSize(.large)
+        .padding(.horizontal, 30)
     }
 }
 

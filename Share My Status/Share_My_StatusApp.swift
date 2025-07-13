@@ -16,6 +16,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.windows.forEach { window in
             window.delegate = self
+            window.titlebarAppearsTransparent = true
+            window.titleVisibility = .hidden
+        }
+        
+        if let window = NSApplication.shared.windows.first {
+            window.setContentSize(NSSize(width: 400, height: 550))
         }
     }
     
@@ -64,53 +70,10 @@ struct Share_My_StatusApp: App {
             }
         }
         .windowStyle(.hiddenTitleBar)
-        .defaultSize(width: 500, height: 400)
+        .defaultSize(width: 400, height: 500)
         
         MenuBarExtra {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("当前播放")
-                    .font(.headline)
-                
-                HStack {
-                    if let artwork = nowPlayingVM.artwork {
-                        Image(nsImage: artwork)
-                            .resizable()
-                            .frame(width: 40, height: 40)
-                            .cornerRadius(4)
-                    }
-                    
-                    VStack(alignment: .leading) {
-                        Text(nowPlayingVM.title)
-                            .font(.system(size: 14, weight: .medium))
-                        Text(nowPlayingVM.artist)
-                            .font(.system(size: 12))
-                            .foregroundColor(.secondary)
-                    }
-                }
-                
-                Divider()
-                
-                if let latestReport {
-                    VStack(alignment: .leading) {
-                        Text("最新上报结果")
-                            .font(.headline)
-                        Text("时间: \(latestReport.timestamp ?? "未知")")
-                        Text("结果: \(latestReport.result ?? "未知")")
-                            .foregroundColor(latestReport.result == "failed" ? .red : .green)
-                    }
-                }
-                
-                Divider()
-                
-                Button("显示主窗口") {
-                    showMainWindow = true
-                    appDelegate.showMainWindow()
-                }
-                
-                Divider()
-            }
-            .padding()
-            .frame(width: 300)
+            MenuBarView(nowPlayingVM: nowPlayingVM, settings: settings, appDelegate: appDelegate)
         } label: {
             Image(systemName: "music.note")
         }

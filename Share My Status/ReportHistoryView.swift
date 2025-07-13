@@ -4,12 +4,8 @@ struct ReportHistoryView: View {
     @ObservedObject var nowPlayingVM: NowPlayingViewModel
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("上报历史")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .padding([.top, .leading], 20)
-                .padding(.bottom, 10)
+        VStack(alignment: .leading) {
+
 
             if nowPlayingVM.reportHistory.isEmpty {
                 emptyHistoryView
@@ -17,8 +13,6 @@ struct ReportHistoryView: View {
                 historyListView
             }
         }
-        .background(Color(.windowBackgroundColor))
-        .navigationTitle("上报历史")
     }
 
     private var historyListView: some View {
@@ -26,39 +20,43 @@ struct ReportHistoryView: View {
             Section(header: historyHeader) {
                 ForEach(nowPlayingVM.reportHistory.prefix(100)) { report in
                     ReportRow(report: report)
+                        .listRowBackground(Color.clear)
                 }
             }
         }
-        .listStyle(.inset)
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .frame(maxHeight: 300)
     }
 
     private var historyHeader: some View {
         HStack {
-            Text("时间").frame(width: 80, alignment: .leading)
-            Text("曲名").frame(maxWidth: .infinity, alignment: .leading)
-            Text("艺术家").frame(maxWidth: .infinity, alignment: .leading)
-            Text("来源").frame(width: 120, alignment: .leading)
-            Text("状态").frame(width: 80, alignment: .leading)
+            Text("时间").frame(width: 80, alignment: .center)
+            Text("曲名").frame(maxWidth: .infinity, alignment: .center)
+            Text("艺术家").frame(maxWidth: .infinity, alignment: .center)
+            Text("来源").frame(maxWidth: .infinity, alignment: .center)
+            Text("状态").frame(width: 80, alignment: .center)
         }
-        .font(.headline)
-        .padding(.horizontal)
+        .padding(EdgeInsets(top: 8, leading: 14, bottom: 8, trailing: 12))
+        .font(.headline.bold())
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    
     }
+    
 
     private var emptyHistoryView: some View {
         VStack {
-            Spacer()
             Image(systemName: "tray.fill")
-                .font(.system(size: 50))
+                .font(.system(size: 40))
                 .foregroundColor(.secondary)
+                .padding(.bottom, 5)
             Text("暂无上报记录")
-                .font(.title2)
-                .padding(.top)
+                .font(.title3)
             Text("当有新的播放信息上报后，这里将显示历史记录。")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-            Spacer()
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -68,20 +66,23 @@ struct ReportRow: View {
     var body: some View {
         HStack {
             Text(report.timestamp ?? "N/A")
-                .frame(width: 80, alignment: .leading)
+                .frame(width: 80, alignment: .center)
+                .lineLimit(1)
             Text(report.title)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .lineLimit(1)
             Text(report.artist)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .center)
                 .lineLimit(1)
-            HoverText(text: report.source ?? "N/A")
-                .frame(width: 120, alignment: .leading)
+            Text(report.source ?? "N/A")
+                .frame(maxWidth: .infinity, alignment: .center)
                 .lineLimit(1)
             statusView
-                .frame(width: 80, alignment: .leading)
+                .frame(width: 80, alignment: .center)
         }
-        .padding(.vertical, 8)
+        .padding(.vertical, 2)
+        .font(.system(size: 13))
+        .foregroundColor(.primary.opacity(0.9))
     }
 
     @ViewBuilder
@@ -97,22 +98,5 @@ struct ReportRow: View {
                 // 在这里可以实现点击查看详细错误信息的功能
             }
         }
-    }
-}
-
-struct HoverText: View {
-    let text: String
-    @State private var isHovered = false
-
-    var body: some View {
-        Text(text)
-            .background(isHovered ? Color.yellow.opacity(0.3) : Color.clear)
-            .onHover { hovering in
-                isHovered = hovering
-            }
-            .popover(isPresented: $isHovered) {
-                Text(text)
-                    .padding()
-            }
     }
 }
