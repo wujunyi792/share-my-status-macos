@@ -5,10 +5,17 @@ struct SettingsView: View {
     @State private var tempAPIKey: String = ""
     @State private var tempEndpointURL: String = ""
     @State private var tempIsReportingEnabled: Bool = true
-    @State private var tempBlacklist: String = ""
+    @State private var tempBlacklistArray: [String] = []
     @State private var showSaveSuccess: Bool = false
     @State private var urlValidationMessage: String = ""
+    @State private var showingAppPicker = false
 
+    private var tempBlacklistBinding: Binding<String> {
+        Binding<String>(
+            get: { self.tempBlacklistArray.joined(separator: "\n") },
+            set: { self.tempBlacklistArray = $0.split(whereSeparator: \.isNewline).map(String.init) }
+        )
+    }
     
     var body: some View {
         Form {
@@ -90,10 +97,13 @@ struct SettingsView: View {
                     Text("来自这些应用程序的播放信息将不会被上报。每行一个 Bundle ID。")
                         .font(.caption)
                         .foregroundColor(.secondary)
-                    TextEditor(text: $tempBlacklist)
+                    TextEditor(text: tempBlacklistBinding)
                         .frame(height: 100)
                         .border(Color.gray, width: 0.5)
                         .cornerRadius(5)
+                    Button("从已安装的应用选择") {
+                        showingAppPicker = true
+                    }
                 }
                 .padding()
             } header: {
@@ -107,7 +117,10 @@ struct SettingsView: View {
             tempAPIKey = settings.apiKey
             tempEndpointURL = settings.endpointURL
             tempIsReportingEnabled = settings.isReportingEnabled
-            tempBlacklist = settings.blacklist.joined(separator: "\n")
+            tempBlacklistArray = settings.blacklist
+        }
+        .sheet(isPresented: $showingAppPicker) {
+            AppPickerView(blacklist: $tempBlacklistArray)
         }
     }
     
@@ -129,7 +142,7 @@ struct SettingsView: View {
         settings.apiKey = tempAPIKey
         settings.endpointURL = tempEndpointURL
         settings.isReportingEnabled = tempIsReportingEnabled
-        settings.blacklist = tempBlacklist.split(whereSeparator: \.isNewline).map(String.init)
+        settings.blacklist = tempBlacklistArray
         
         withAnimation {
             showSaveSuccess = true
@@ -147,7 +160,7 @@ struct SettingsView: View {
         tempAPIKey = settings.apiKey
         tempEndpointURL = settings.endpointURL
         tempIsReportingEnabled = settings.isReportingEnabled
-        tempBlacklist = settings.blacklist.joined(separator: "\n")
+        tempBlacklistArray = settings.blacklist
         urlValidationMessage = ""
     }
 }
