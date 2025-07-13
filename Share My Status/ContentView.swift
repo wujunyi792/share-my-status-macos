@@ -11,62 +11,157 @@ struct ContentView: View {
     @EnvironmentObject var settings: Settings
     @ObservedObject var nowPlayingVM: NowPlayingViewModel
     @State private var selectedTab = 0
-    
+
     init(nowPlayingVM: NowPlayingViewModel) {
         self.nowPlayingVM = nowPlayingVM
     }
-    
+
     var body: some View {
-        TabView(selection: $selectedTab) {
-            // 播放信息标签页
-            VStack(alignment: .leading, spacing: 10) {
-                Text("当前播放信息")
-                    .font(.headline)
-                
-                HStack {
-                    if let artwork = nowPlayingVM.artwork {
-                        Image(nsImage: artwork)
-                            .resizable()
-                            .frame(width: 100, height: 100)
-                            .cornerRadius(8)
-                    } else {
-                        Rectangle()
-                            .fill(Color.gray)
-                            .frame(width: 100, height: 100)
-                            .cornerRadius(8)
+        ZStack {
+            LinearGradient(
+                gradient: Gradient(colors: [Color.blue.opacity(0.1), Color.purple.opacity(0.1)]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .edgesIgnoringSafeArea(.all)
+
+            TabView(selection: $selectedTab) {
+                nowPlayingTab
+                    .tabItem {
+                        Label("正在播放", systemImage: "music.note")
                     }
-                    
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("艺术家: \(nowPlayingVM.artist)")
-                        Text("标题: \(nowPlayingVM.title)")
-                        Text("专辑: \(nowPlayingVM.album)")
-                        Text("时长: \(nowPlayingVM.duration)")
+                    .tag(0)
+
+                SettingsView(settings: settings)
+                    .tabItem {
+                        Label("设置", systemImage: "gearshape.fill")
                     }
-                }
-                
-                Spacer()
+                    .tag(1)
+
+                ReportHistoryView(nowPlayingVM: nowPlayingVM)
+                    .tabItem {
+                        Label("上报历史", systemImage: "clock.fill")
+                    }
+                    .tag(2)
             }
             .padding()
-            .tabItem {
-                Label("播放信息", systemImage: "music.note")
-            }
-            .tag(0)
-            
-            // 设置标签页
-            SettingsView(settings: settings)
-                .tabItem {
-                    Label("设置", systemImage: "gear")
-                }
-                .tag(1)
-
-            // 上报历史标签页
-            ReportHistoryView(nowPlayingVM: nowPlayingVM)
-                .tabItem {
-                    Label("上报历史", systemImage: "clock")
-                }
-                .tag(2)
         }
-        .padding()
+        .frame(minWidth: 600, minHeight: 400)
+    }
+
+    private var nowPlayingTab: some View {
+        VStack(spacing: 20) {
+            Text("正在播放")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundColor(.primary)
+
+            if nowPlayingVM.title.isEmpty || nowPlayingVM.artist.isEmpty {
+                emptyStateView
+            } else {
+                nowPlayingCard
+            }
+
+            Spacer()
+
+            reportingStatusView
+        }
+        .padding(30)
+    }
+
+    private var nowPlayingCard: some View {
+        HStack(spacing: 20) {
+            artworkView
+            
+            VStack(alignment: .leading, spacing: 8) {
+                Text(nowPlayingVM.title)
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .lineLimit(2)
+                
+                Text(nowPlayingVM.artist)
+                    .font(.headline)
+                    .foregroundColor(.secondary)
+                
+                Text(nowPlayingVM.album)
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
+                Text("时长: \(nowPlayingVM.duration)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(20)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Material.ultraThin)
+                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
+        )
+    }
+
+    private var artworkView: some View {
+        Group {
+            if let artwork = nowPlayingVM.artwork {
+                Image(nsImage: artwork)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 120, height: 120)
+                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    .shadow(radius: 8)
+            } else {
+                RoundedRectangle(cornerRadius: 15)
+                    .fill(Color.gray.opacity(0.3))
+                    .frame(width: 120, height: 120)
+                    .overlay(
+                        Image(systemName: "music.note")
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                    )
+            }
+        }
+    }
+
+    private var emptyStateView: some View {
+        VStack(spacing: 15) {
+            Image(systemName: "music.mic")
+                .font(.system(size: 60))
+                .foregroundColor(.secondary)
+            Text("当前没有播放音乐")
+                .font(.title2)
+                .fontWeight(.medium)
+            Text("请在任何音乐应用中播放一首歌曲，这里将显示相关信息。")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: 300)
+        }
+        .padding(40)
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Material.ultraThin)
+        )
+    }
+
+    private var reportingStatusView: some View {
+        HStack {
+            Circle()
+                .fill(settings.isReportingEnabled ? Color.green : Color.red)
+                .frame(width: 10, height: 10)
+                .shadow(color: settings.isReportingEnabled ? .green : .red, radius: 5)
+            
+            Text(settings.isReportingEnabled ? "上报功能已开启" : "上报功能已关闭")
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding(8)
+        .background(Material.thin)
+        .clipShape(Capsule())
     }
 }
 
