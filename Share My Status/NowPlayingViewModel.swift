@@ -13,7 +13,6 @@ struct MediaInfo: Codable {
     let playbackRate: Double?
     let artworkMimeType: String?
     let artworkData: String?
-//    let artworkData: NSImage?
 }
 
 class NowPlayingViewModel: ObservableObject {
@@ -22,6 +21,7 @@ class NowPlayingViewModel: ObservableObject {
     @Published var album: String = "未知专辑"
     @Published var duration: String = "未知时长"
     @Published var artwork: NSImage? = nil
+    @Published var source: String = "未知来源"
     @Published var reportHistory: [MusicData] = []
 
     private var timer: DispatchSourceTimer?
@@ -30,7 +30,7 @@ class NowPlayingViewModel: ObservableObject {
     private let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
-        formatter.timeZone = TimeZone(secondsFromGMT: 8 * 3600) // 设置为东八区
+        formatter.timeZone = TimeZone(secondsFromGMT: 8 * 3600)
         return formatter
     }()
     
@@ -48,7 +48,6 @@ class NowPlayingViewModel: ObservableObject {
     }
     
     func startMonitoring() {
-        // 使用DispatchSourceTimer替代Timer，提供更好的性能和控制
         let queue = DispatchQueue(label: "com.yourapp.nowplaying", qos: .background)
         let dispatchTimer = DispatchSource.makeTimerSource(queue: queue)
         dispatchTimer.schedule(deadline: .now(), repeating: 5.0)
@@ -63,20 +62,14 @@ class NowPlayingViewModel: ObservableObject {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self else { return }
             let bundle = Bundle.main.bundlePath
-            
-            // .pl 文件路径（在 Resources 目录中）
             let perlScriptPath = "\(bundle)/Contents/Resources/mediaremote-adapter.pl"
-            
-            // .framework 文件路径（在 Frameworks 目录中）
             let frameworkPath = "\(bundle)/Contents/Frameworks/MediaRemoteAdapter.framework"
             
-            // 验证文件存在
             let fileManager = FileManager.default
             if !fileManager.fileExists(atPath: perlScriptPath) || !fileManager.fileExists(atPath: frameworkPath) {
                 return
             }
             
-            // 执行任务
             let task = Process()
             task.launchPath = "/usr/bin/perl"
             task.arguments = [perlScriptPath, frameworkPath, "get"]
@@ -97,6 +90,7 @@ class NowPlayingViewModel: ObservableObject {
                         self.artist = mediaInfo.artist ?? "未知艺术家"
                         self.title = mediaInfo.title ?? "未知标题"
                         self.album = mediaInfo.album ?? "未知专辑"
+                        self.source = mediaInfo.bundleIdentifier ?? "未知来源"
                         if let duration = mediaInfo.duration {
                             let formatter = DateComponentsFormatter()
                             formatter.allowedUnits = [.minute, .second]
@@ -126,11 +120,9 @@ class NowPlayingViewModel: ObservableObject {
         guard settings.isReportingEnabled, title != previousTitle && title != "未知标题" else {
             return
         }
-//        print("DEBUG: 当前标题: \(title)")
         
         previousTitle = title
         
-        // 将 NSImage 转换为 Base64 字符串
         let artworkBase64: String
         if let artwork = artwork,
            let tiffData = artwork.tiffRepresentation,
@@ -149,12 +141,13 @@ class NowPlayingViewModel: ObservableObject {
             artwork: artworkBase64,
             timestamp: timeFormatter.string(from: Date()),
             result: nil,
-            errorMessage: nil
+            errorMessage: nil,
+            source: source
         )
         
         Task {
             let musicData = initialMusicData
-            let result: MusicData
+            var result: MusicData
             do {
                 try await NetworkService.shared.sendMusicActivity(settings: settings, musicData: musicData)
                 result = MusicData(
@@ -165,7 +158,8 @@ class NowPlayingViewModel: ObservableObject {
                     artwork: musicData.artwork,
                     timestamp: musicData.timestamp,
                     result: "success",
-                    errorMessage: nil
+                    errorMessage: nil,
+                    source: musicData.source
                 )
             } catch {
                 print("发送音乐更新失败: \(error)")
@@ -177,11 +171,11 @@ class NowPlayingViewModel: ObservableObject {
                     artwork: musicData.artwork,
                     timestamp: musicData.timestamp,
                     result: "failed",
-                    errorMessage: error.localizedDescription
+                    errorMessage: error.localizedDescription,
+                    source: musicData.source
                 )
             }
             
-            // 添加到上报历史
             await MainActor.run {
                 self.reportHistory.insert(result, at: 0)
                 if self.reportHistory.count > 100 {

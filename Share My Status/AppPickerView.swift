@@ -68,36 +68,10 @@ struct AppPickerView: View {
             TextField("搜索应用...", text: $searchText)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
+                .controlSize(.large) // 增大搜索栏
 
             List(filteredApps) { app in
-                HStack {
-                    if let icon = app.icon {
-                        Image(nsImage: icon)
-                            .resizable()
-                            .frame(width: 32, height: 32)
-                            .cornerRadius(4)
-                    } else {
-                        Rectangle()
-                            .fill(Color.gray)
-                            .frame(width: 32, height: 32)
-                            .cornerRadius(4)
-                    }
-                    VStack(alignment: .leading) {
-                        Text(app.name).font(.headline)
-                        Text(app.bundleIdentifier).font(.caption).foregroundColor(.secondary)
-                    }
-                    Spacer()
-                    if blacklist.contains(app.bundleIdentifier) {
-                        Button("移除") {
-                            blacklist.removeAll { $0 == app.bundleIdentifier }
-                        }
-                    } else {
-                        Button("添加") {
-                            blacklist.append(app.bundleIdentifier)
-                        }
-                    }
-                }
-                .padding(.vertical, 4)
+                AppRowView(app: app, blacklist: $blacklist)
             }
             .onAppear {
                 scanner.scan()
@@ -107,9 +81,54 @@ struct AppPickerView: View {
                 Button("完成") {
                     presentationMode.wrappedValue.dismiss()
                 }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
             }
             .padding()
         }
         .frame(width: 500, height: 600)
+    }
+}
+
+struct AppRowView: View {
+    let app: AppInfo
+    @Binding var blacklist: [String]
+
+    var body: some View {
+        HStack {
+            if let icon = app.icon {
+                Image(nsImage: icon)
+                    .resizable()
+                    .frame(width: 32, height: 32)
+                    .cornerRadius(4)
+            } else {
+                Rectangle()
+                    .fill(Color.gray)
+                    .frame(width: 32, height: 32)
+                    .cornerRadius(4)
+            }
+            VStack(alignment: .leading) {
+                Text(app.name).font(.headline)
+                Text(app.bundleIdentifier).font(.caption).foregroundColor(.secondary)
+            }
+            Spacer()
+            if blacklist.contains(app.bundleIdentifier) {
+                Button("移除") {
+                    blacklist.removeAll { $0 == app.bundleIdentifier }
+                }
+                .buttonStyle(.bordered)
+                .tint(.red)
+                .controlSize(.large)
+                .frame(minWidth: 80)
+            } else {
+                Button("添加") {
+                    blacklist.append(app.bundleIdentifier)
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.large)
+                .frame(minWidth: 80)
+            }
+        }
+        .padding(.vertical, 4)
     }
 }

@@ -34,10 +34,11 @@ struct ReportHistoryView: View {
 
     private var historyHeader: some View {
         HStack {
-            Text("时间").frame(maxWidth: .infinity, alignment: .leading)
+            Text("时间").frame(width: 80, alignment: .leading)
             Text("曲名").frame(maxWidth: .infinity, alignment: .leading)
             Text("艺术家").frame(maxWidth: .infinity, alignment: .leading)
-            Text("状态").frame(maxWidth: .infinity, alignment: .leading)
+            Text("来源").frame(width: 120, alignment: .leading)
+            Text("状态").frame(width: 80, alignment: .leading)
         }
         .font(.headline)
         .padding(.horizontal)
@@ -67,13 +68,18 @@ struct ReportRow: View {
     var body: some View {
         HStack {
             Text(report.timestamp ?? "N/A")
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(width: 80, alignment: .leading)
             Text(report.title)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .lineLimit(1)
             Text(report.artist)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .lineLimit(1)
+            HoverText(text: report.source ?? "N/A")
+                .frame(width: 120, alignment: .leading)
+                .lineLimit(1)
             statusView
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(width: 80, alignment: .leading)
         }
         .padding(.vertical, 8)
     }

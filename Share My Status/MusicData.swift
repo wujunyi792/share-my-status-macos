@@ -10,8 +10,9 @@ struct MusicData: Codable, Hashable, Identifiable {
     var timestamp: String?
     var result: String?
     var errorMessage: String?
+    var source: String?
     
     enum CodingKeys: String, CodingKey {
-        case artist, title, album, duration, artwork, timestamp, result, errorMessage
+        case artist, title, album, duration, artwork, timestamp, result, errorMessage, source
     }
 }

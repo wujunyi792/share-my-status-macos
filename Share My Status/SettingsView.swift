@@ -63,17 +63,35 @@ struct SettingsView: View {
                 }
             }
 
-            Toggle(isOn: $tempIsReportingEnabled) {
-                Text("开启上报")
-                    .font(.callout)
+            VStack(alignment: .leading, spacing: 4) {
+                Toggle(isOn: $tempIsReportingEnabled) {
+                    Text("开启音乐状态上报")
+                        .font(.body)
+                }
+                .toggleStyle(.switch)
+                .controlSize(.large)
+                Text("当开启时，应用会自动将您正在播放的音乐信息上报到指定的服务器。")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.leading, 24)
             }
         }
     }
 
     private var blacklistSection: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("黑名单配置")
-                .font(.headline)
+            HStack {
+                Text("黑名单配置")
+                    .font(.headline)
+                Spacer()
+                Button {
+                    showingAppPicker = true
+                } label: {
+                    Label("从已安装的应用选择", systemImage: "plus.circle.fill")
+                }
+                .buttonStyle(.bordered)
+            }
 
             Text("来自这些应用程序的播放信息将不会被上报。每行一个 Bundle ID。")
                 .font(.caption)
@@ -84,18 +102,6 @@ struct SettingsView: View {
                 .border(Color.gray.opacity(0.2), width: 1)
                 .cornerRadius(5)
                 .font(Font.system(.body).monospaced())
-
-            Button {
-                showingAppPicker = true
-            } label: {
-                Label("从已安装的应用选择", systemImage: "plus.circle.fill")
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 12)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
-            }
-            .buttonStyle(PlainButtonStyle())
         }
     }
 
