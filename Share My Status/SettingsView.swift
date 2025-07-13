@@ -16,152 +16,161 @@ struct SettingsView: View {
             set: { self.tempBlacklistArray = $0.split(whereSeparator: \.isNewline).map(String.init) }
         )
     }
-    
+
     var body: some View {
-        Form {
-            Section {
-                VStack(alignment: .leading, spacing: 16) {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("API Key")
-                            .bold()
-                        Text("用于验证您的身份的密钥")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        TextField("请输入您的 API Key", text: $tempAPIKey)
-                            .textFieldStyle(.roundedBorder)
-                    }
-                    
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Endpoint URL")
-                            .bold()
-                        Text("接收播放状态更新的服务器地址")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        TextField("请输入服务器地址", text: $tempEndpointURL)
-                            .textFieldStyle(.roundedBorder)
-                        if !urlValidationMessage.isEmpty {
-                            Text(urlValidationMessage)
-                                .font(.caption)
-                                .foregroundColor(.red)
-                        }
-                    }
-                    
-                    Toggle(isOn: $tempIsReportingEnabled) {
-                        VStack(alignment: .leading) {
-                            Text("开启上报")
-                                .bold()
-                            Text("将当前播放的音乐信息上报给服务器")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    
-                    Divider()
-                    
-                    HStack {
-                        Button(action: saveSettings) {
-                            HStack {
-                                Image(systemName: "checkmark.circle.fill")
-                                Text("保存设置")
-                            }
-                        }
-                        .disabled(tempEndpointURL.isEmpty || tempAPIKey.isEmpty)
-                        
-                        Button(action: resetSettings) {
-                            HStack {
-                                Image(systemName: "arrow.counterclockwise.circle.fill")
-                                Text("重置")
-                            }
-                        }
-                        .buttonStyle(.borderless)
-                    }
-                    
-                    if showSaveSuccess {
-                        Text("设置已保存")
-                            .font(.caption)
-                            .foregroundColor(.green)
-                            .transition(.opacity)
-                    }
-                }
-                .padding()
-            } header: {
-                Text("API 配置")
-                    .font(.headline)
-                    .padding(.bottom, 8)
+        ScrollView {
+            VStack(spacing: 24) {
+                apiConfigSection
+                blacklistSection
+                Spacer()
+                actionButtons
             }
-            
-            Section {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("黑名单应用程序")
-                        .bold()
-                    Text("来自这些应用程序的播放信息将不会被上报。每行一个 Bundle ID。")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    TextEditor(text: tempBlacklistBinding)
-                        .frame(height: 100)
-                        .border(Color.gray, width: 0.5)
-                        .cornerRadius(5)
-                    Button("从已安装的应用选择") {
-                        showingAppPicker = true
-                    }
-                }
-                .padding()
-            } header: {
-                Text("黑名单配置")
-                    .font(.headline)
-                    .padding(.bottom, 8)
-            }
+            .padding(30)
         }
-        .frame(width: 400)
-        .onAppear {
-            tempAPIKey = settings.apiKey
-            tempEndpointURL = settings.endpointURL
-            tempIsReportingEnabled = settings.isReportingEnabled
-            tempBlacklistArray = settings.blacklist
-        }
+        .frame(minWidth: 480, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity)
+        .navigationTitle("设置")
+        .onAppear(perform: loadSettings)
+        .onChange(of: tempEndpointURL, perform: validateURL)
         .sheet(isPresented: $showingAppPicker) {
             AppPickerView(blacklist: $tempBlacklistArray)
         }
     }
-    
+
+    private var apiConfigSection: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("API 配置")
+                .font(.headline)
+                .padding(.bottom, -10)
+
+            VStack(alignment: .leading, spacing: 5) {
+                Text("API Key")
+                    .font(.callout)
+                    .foregroundColor(.secondary)
+                TextField("请输入您的 API Key", text: $tempAPIKey)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+
+            VStack(alignment: .leading, spacing: 5) {
+                Text("Endpoint URL (HTTPS)")
+                    .font(.callout)
+                    .foregroundColor(.secondary)
+                TextField("请输入服务器地址", text: $tempEndpointURL)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                if !urlValidationMessage.isEmpty {
+                    Text(urlValidationMessage)
+                        .font(.caption)
+                        .foregroundColor(.red)
+                }
+            }
+
+            Toggle(isOn: $tempIsReportingEnabled) {
+                Text("开启上报")
+                    .font(.callout)
+            }
+        }
+    }
+
+    private var blacklistSection: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("黑名单配置")
+                .font(.headline)
+
+            Text("来自这些应用程序的播放信息将不会被上报。每行一个 Bundle ID。")
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+            TextEditor(text: tempBlacklistBinding)
+                .frame(minHeight: 100, maxHeight: 200)
+                .border(Color.gray.opacity(0.2), width: 1)
+                .cornerRadius(5)
+                .font(Font.system(.body).monospaced())
+
+            Button {
+                showingAppPicker = true
+            } label: {
+                Label("从已安装的应用选择", systemImage: "plus.circle.fill")
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 12)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+
+    private var actionButtons: some View {
+        VStack(spacing: 10) {
+            HStack(spacing: 12) {
+                Button(action: resetSettings) {
+                    Text("重置")
+                        .frame(minWidth: 80)
+                        .padding()
+                }
+                .buttonStyle(.bordered)
+
+                Button(action: saveSettings) {
+                    Text("保存")
+                        .frame(minWidth: 80)
+                        .padding()
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(tempEndpointURL.isEmpty || tempAPIKey.isEmpty || !urlValidationMessage.isEmpty)
+            }
+
+            if showSaveSuccess {
+                Text("设置已成功保存。")
+                    .foregroundColor(.green)
+                    .font(.caption)
+                    .transition(.opacity)
+                    .padding(.top, 5)
+            }
+        }
+    }
+
+    private func loadSettings() {
+        tempAPIKey = settings.apiKey
+        tempEndpointURL = settings.endpointURL
+        tempIsReportingEnabled = settings.isReportingEnabled
+        tempBlacklistArray = settings.blacklist
+        validateURL(tempEndpointURL)
+    }
+
     private func validateURL(_ url: String) {
         if url.isEmpty {
             urlValidationMessage = "URL 不能为空"
-        } else if let url = URL(string: url) {
-            if url.scheme?.lowercased() != "https" {
-                urlValidationMessage = "URL 必须使用 HTTPS 协议"
-            } else {
-                urlValidationMessage = ""
-            }
-        } else {
+            return
+        }
+        guard let url = URL(string: url) else {
             urlValidationMessage = "无效的 URL 格式"
+            return
+        }
+        if url.scheme?.lowercased() != "https" {
+            urlValidationMessage = "URL 必须使用 HTTPS 协议"
+        } else {
+            urlValidationMessage = ""
         }
     }
-    
+
     private func saveSettings() {
         settings.apiKey = tempAPIKey
         settings.endpointURL = tempEndpointURL
         settings.isReportingEnabled = tempIsReportingEnabled
         settings.blacklist = tempBlacklistArray
-        
+
         withAnimation {
             showSaveSuccess = true
         }
-        
-        // 3秒后隐藏成功消息
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             withAnimation {
                 showSaveSuccess = false
             }
         }
     }
-    
+
     private func resetSettings() {
-        tempAPIKey = settings.apiKey
-        tempEndpointURL = settings.endpointURL
-        tempIsReportingEnabled = settings.isReportingEnabled
-        tempBlacklistArray = settings.blacklist
-        urlValidationMessage = ""
+        loadSettings()
     }
 }
 
