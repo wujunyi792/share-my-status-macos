@@ -5,6 +5,7 @@ struct SettingsView: View {
     @State private var tempAPIKey: String = ""
     @State private var tempEndpointURL: String = ""
     @State private var tempIsReportingEnabled: Bool = true
+    @State private var tempBlacklist: String = ""
     @State private var showSaveSuccess: Bool = false
     @State private var urlValidationMessage: String = ""
 
@@ -81,12 +82,32 @@ struct SettingsView: View {
                     .font(.headline)
                     .padding(.bottom, 8)
             }
+            
+            Section {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("黑名单应用程序")
+                        .bold()
+                    Text("来自这些应用程序的播放信息将不会被上报。每行一个 Bundle ID。")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextEditor(text: $tempBlacklist)
+                        .frame(height: 100)
+                        .border(Color.gray, width: 0.5)
+                        .cornerRadius(5)
+                }
+                .padding()
+            } header: {
+                Text("黑名单配置")
+                    .font(.headline)
+                    .padding(.bottom, 8)
+            }
         }
         .frame(width: 400)
         .onAppear {
             tempAPIKey = settings.apiKey
             tempEndpointURL = settings.endpointURL
             tempIsReportingEnabled = settings.isReportingEnabled
+            tempBlacklist = settings.blacklist.joined(separator: "\n")
         }
     }
     
@@ -108,6 +129,7 @@ struct SettingsView: View {
         settings.apiKey = tempAPIKey
         settings.endpointURL = tempEndpointURL
         settings.isReportingEnabled = tempIsReportingEnabled
+        settings.blacklist = tempBlacklist.split(whereSeparator: \.isNewline).map(String.init)
         
         withAnimation {
             showSaveSuccess = true
@@ -125,6 +147,7 @@ struct SettingsView: View {
         tempAPIKey = settings.apiKey
         tempEndpointURL = settings.endpointURL
         tempIsReportingEnabled = settings.isReportingEnabled
+        tempBlacklist = settings.blacklist.joined(separator: "\n")
         urlValidationMessage = ""
     }
 }

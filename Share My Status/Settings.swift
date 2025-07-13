@@ -22,9 +22,17 @@ class Settings: ObservableObject {
         }
     }
     
+    @Published var blacklist: [String] {
+        didSet {
+            print("blacklist 已更新为: \(blacklist)")
+            UserDefaults.standard.set(blacklist, forKey: "blacklist")
+        }
+    }
+    
     init() {
         self.apiKey = UserDefaults.standard.string(forKey: "apiKey") ?? ""
         self.endpointURL = UserDefaults.standard.string(forKey: "endpointURL") ?? ""
         self.isReportingEnabled = UserDefaults.standard.object(forKey: "isReportingEnabled") as? Bool ?? true
+        self.blacklist = UserDefaults.standard.stringArray(forKey: "blacklist") ?? ["com.apple.Safari", "com.google.Chrome", "com.mozilla.firefox"]
     }
 }

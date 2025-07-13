@@ -90,6 +90,9 @@ class NowPlayingViewModel: ObservableObject {
 
                 let decoder = JSONDecoder()
                 if let mediaInfo = try? decoder.decode(MediaInfo.self, from: data) {
+                    if let bundleIdentifier = mediaInfo.bundleIdentifier, self.settings.blacklist.contains(bundleIdentifier) {
+                        return
+                    }
                     DispatchQueue.main.async {
                         self.artist = mediaInfo.artist ?? "未知艺术家"
                         self.title = mediaInfo.title ?? "未知标题"
