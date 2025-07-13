@@ -25,66 +25,27 @@ struct ContentView: View {
             )
             .edgesIgnoringSafeArea(.all)
 
-            VStack(spacing: 0) {
-                customTabBar
-                    .padding(.horizontal)
-                    .padding(.bottom, 8)
+            TabView(selection: $selectedTab) {
+                nowPlayingTab
+                    .tabItem {
+                        Label("正在播放", systemImage: "music.note")
+                    }
+                    .tag(0)
 
-                TabView(selection: $selectedTab) {
-                    nowPlayingTab
-                        .tag(0)
+                SettingsView(settings: settings)
+                    .tabItem {
+                        Label("设置", systemImage: "gearshape.fill")
+                    }
+                    .tag(1)
 
-                    SettingsView(settings: settings)
-                        .tag(1)
-
-                    ReportHistoryView(nowPlayingVM: nowPlayingVM)
-                        .tag(2)
-                }
+                ReportHistoryView(nowPlayingVM: nowPlayingVM)
+                    .tabItem {
+                        Label("上报历史", systemImage: "clock.fill")
+                    }
+                    .tag(2)
             }
-            .padding(.top, 20)
         }
         .frame(minWidth: 600, minHeight: 400)
-    }
-
-    private var customTabBar: some View {
-        HStack {
-            Spacer()
-            HStack(spacing: 20) {
-                tabButton(title: "正在播放", systemImage: "music.note", tag: 0)
-                tabButton(title: "设置", systemImage: "gearshape.fill", tag: 1)
-                tabButton(title: "上报历史", systemImage: "clock.fill", tag: 2)
-            }
-            Spacer()
-        }
-        .frame(height: 40)
-    }
-
-    private func tabButton(title: String, systemImage: String, tag: Int) -> some View {
-        Button(action: {
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                selectedTab = tag
-            }
-        }) {
-            HStack(spacing: 8) {
-                Image(systemName: systemImage)
-                Text(title)
-            }
-            .font(.system(size: 16, weight: .medium))
-            .foregroundColor(selectedTab == tag ? .primary : .secondary)
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
-            .background(
-                ZStack {
-                    if selectedTab == tag {
-                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .fill(Material.regular)
-                            .shadow(color: Color.black.opacity(0.1), radius: 5, y: 2)
-                    }
-                }
-            )
-        }
-        .buttonStyle(PlainButtonStyle())
-        .scaleEffect(selectedTab == tag ? 1.03 : 1.0)
     }
 
     private var nowPlayingTab: some View {
