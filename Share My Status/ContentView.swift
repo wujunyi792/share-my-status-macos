@@ -27,7 +27,7 @@ struct ContentView: View {
 
             VStack(spacing: 0) {
                 customTabBar
-                    .padding([.horizontal, .top])
+                    .padding(.horizontal)
                     .padding(.bottom, 8)
 
                 TabView(selection: $selectedTab) {
@@ -41,6 +41,7 @@ struct ContentView: View {
                         .tag(2)
                 }
             }
+            .padding(.top, 20)
         }
         .frame(minWidth: 600, minHeight: 400)
     }
@@ -68,7 +69,7 @@ struct ContentView: View {
                 Image(systemName: systemImage)
                 Text(title)
             }
-            .font(.system(size: 14, weight: .medium))
+            .font(.system(size: 16, weight: .medium))
             .foregroundColor(selectedTab == tag ? .primary : .secondary)
             .padding(.horizontal, 16)
             .padding(.vertical, 10)

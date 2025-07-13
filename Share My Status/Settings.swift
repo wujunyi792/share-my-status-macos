@@ -33,6 +33,6 @@ class Settings: ObservableObject {
         self.apiKey = UserDefaults.standard.string(forKey: "apiKey") ?? ""
         self.endpointURL = UserDefaults.standard.string(forKey: "endpointURL") ?? ""
         self.isReportingEnabled = UserDefaults.standard.object(forKey: "isReportingEnabled") as? Bool ?? true
-        self.blacklist = UserDefaults.standard.stringArray(forKey: "blacklist") ?? ["com.apple.Safari", "com.google.Chrome", "com.mozilla.firefox"]
+        self.blacklist = UserDefaults.standard.stringArray(forKey: "blacklist") ?? ["com.apple.Safari", "com.google.Chrome", "com.mozilla.firefox", "com.microsoft.Edge", "com.operasoftware.Opera", "com.brave.Browser", "com.vivaldi.Vivaldi"]
     }
 }

@@ -4,29 +4,26 @@ struct ReportHistoryView: View {
     @ObservedObject var nowPlayingVM: NowPlayingViewModel
 
     var body: some View {
-        VStack(alignment: .leading) {
-
-
-            if nowPlayingVM.reportHistory.isEmpty {
-                emptyHistoryView
-            } else {
-                historyListView
-            }
+        if nowPlayingVM.reportHistory.isEmpty {
+            emptyHistoryView
+        } else {
+            historyListView
         }
     }
 
     private var historyListView: some View {
-        List {
-            Section(header: historyHeader) {
+        VStack(spacing: 0) {
+            historyHeader
+            List {
                 ForEach(nowPlayingVM.reportHistory.prefix(100)) { report in
                     ReportRow(report: report)
                         .listRowBackground(Color.clear)
                 }
             }
+            .listStyle(.plain)
+            .scrollContentBackground(.hidden)
+            .frame(maxHeight: 300)
         }
-        .listStyle(.plain)
-        .scrollContentBackground(.hidden)
-        .frame(maxHeight: 300)
     }
 
     private var historyHeader: some View {
@@ -37,9 +34,8 @@ struct ReportHistoryView: View {
             Text("来源").frame(maxWidth: .infinity, alignment: .center)
             Text("状态").frame(width: 80, alignment: .center)
         }
-        .padding(EdgeInsets(top: 8, leading: 14, bottom: 8, trailing: 12))
-        .font(.headline.bold())
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(EdgeInsets(top: 0, leading: 14, bottom: 8, trailing: 20))
+        .font(.title2.bold())
     
     }
     
@@ -81,7 +77,7 @@ struct ReportRow: View {
                 .frame(width: 80, alignment: .center)
         }
         .padding(.vertical, 2)
-        .font(.system(size: 13))
+        .font(.system(size: 15))
         .foregroundColor(.primary.opacity(0.9))
     }
 

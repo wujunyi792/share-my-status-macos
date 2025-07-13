@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
         
         if let window = NSApplication.shared.windows.first {
-            window.setContentSize(NSSize(width: 400, height: 550))
+            window.setContentSize(NSSize(width: 500, height: 550))
         }
     }
     
