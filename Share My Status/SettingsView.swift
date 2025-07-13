@@ -4,6 +4,7 @@ struct SettingsView: View {
     @ObservedObject var settings: Settings
     @State private var tempAPIKey: String = ""
     @State private var tempEndpointURL: String = ""
+    @State private var tempIsReportingEnabled: Bool = true
     @State private var showSaveSuccess: Bool = false
     @State private var urlValidationMessage: String = ""
 
@@ -34,6 +35,16 @@ struct SettingsView: View {
                             Text(urlValidationMessage)
                                 .font(.caption)
                                 .foregroundColor(.red)
+                        }
+                    }
+                    
+                    Toggle(isOn: $tempIsReportingEnabled) {
+                        VStack(alignment: .leading) {
+                            Text("开启上报")
+                                .bold()
+                            Text("将当前播放的音乐信息上报给服务器")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
                         }
                     }
                     
@@ -75,6 +86,7 @@ struct SettingsView: View {
         .onAppear {
             tempAPIKey = settings.apiKey
             tempEndpointURL = settings.endpointURL
+            tempIsReportingEnabled = settings.isReportingEnabled
         }
     }
     
@@ -95,6 +107,7 @@ struct SettingsView: View {
     private func saveSettings() {
         settings.apiKey = tempAPIKey
         settings.endpointURL = tempEndpointURL
+        settings.isReportingEnabled = tempIsReportingEnabled
         
         withAnimation {
             showSaveSuccess = true
@@ -111,6 +124,7 @@ struct SettingsView: View {
     private func resetSettings() {
         tempAPIKey = settings.apiKey
         tempEndpointURL = settings.endpointURL
+        tempIsReportingEnabled = settings.isReportingEnabled
         urlValidationMessage = ""
     }
 }

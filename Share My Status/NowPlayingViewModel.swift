@@ -120,7 +120,7 @@ class NowPlayingViewModel: ObservableObject {
     }
     
     private func sendMusicUpdate() {
-        guard title != previousTitle && title != "未知标题" else {
+        guard settings.isReportingEnabled, title != previousTitle && title != "未知标题" else {
             return
         }
 //        print("DEBUG: 当前标题: \(title)")
