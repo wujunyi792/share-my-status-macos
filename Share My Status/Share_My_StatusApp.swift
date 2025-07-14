@@ -9,6 +9,7 @@ import SwiftUI
 import AppKit
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+
     func windowWillClose(_ notification: Notification) {
         NSApplication.shared.setActivationPolicy(.accessory)
     }
@@ -18,10 +19,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             window.delegate = self
             window.titlebarAppearsTransparent = true
             window.titleVisibility = .hidden
+            // 设置窗口最小尺寸
+            window.minSize = NSSize(width: 600, height: 450)
         }
         
         if let window = NSApplication.shared.windows.first {
-            window.setContentSize(NSSize(width: 500, height: 550))
+            window.setContentSize(NSSize(width: 600, height: 450))
         }
     }
     
@@ -30,6 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         NSApplication.shared.activate(ignoringOtherApps: true)
         
         if let window = NSApplication.shared.windows.first {
+            window.minSize = NSSize(width: 600, height: 450)
             window.makeKeyAndOrderFront(nil)
             window.center()
         }
@@ -59,6 +63,7 @@ struct Share_My_StatusApp: App {
             if showMainWindow {
                 ContentView(nowPlayingVM: nowPlayingVM)
                     .environmentObject(settings)
+                    .frame(minWidth: 600, minHeight: 450)
                     .onAppear {
                         NSApplication.shared.setActivationPolicy(.regular)
                         DispatchQueue.main.async {
@@ -70,7 +75,7 @@ struct Share_My_StatusApp: App {
             }
         }
         .windowStyle(.hiddenTitleBar)
-        .defaultSize(width: 400, height: 500)
+        .defaultSize(width: 600, height: 450)
         
         MenuBarExtra {
             MenuBarView(nowPlayingVM: nowPlayingVM, settings: settings, appDelegate: appDelegate)

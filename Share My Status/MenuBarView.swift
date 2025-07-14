@@ -33,10 +33,10 @@ struct MenuBarView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 50, height: 50)
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
-                        .shadow(color: Color.black.opacity(0.1), radius: 4, y: 2)
+                        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+                        .shadow(color: Color.black.opacity(0.1), radius: 3, y: 1)
                 } else {
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    RoundedRectangle(cornerRadius: 6, style: .continuous)
                         .fill(Material.regular)
                         .frame(width: 50, height: 50)
                         .overlay(
@@ -109,6 +109,19 @@ struct MenuBarView: View {
                 .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
+            .controlSize(.large)
+            
+            Button(action: {
+                NSApplication.shared.terminate(nil)
+            }) {
+                HStack {
+                    Image(systemName: "power")
+                    Text("退出应用")
+                }
+                .font(.system(size: 14, weight: .medium))
+                .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
             .controlSize(.large)
         }
     }

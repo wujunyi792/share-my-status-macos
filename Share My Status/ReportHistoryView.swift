@@ -2,12 +2,21 @@ import SwiftUI
 
 struct ReportHistoryView: View {
     @ObservedObject var nowPlayingVM: NowPlayingViewModel
+    @State private var showingErrorDetail = false
+    @State private var selectedError: String = ""
 
     var body: some View {
-        if nowPlayingVM.reportHistory.isEmpty {
-            emptyHistoryView
-        } else {
-            historyListView
+        Group {
+            if nowPlayingVM.reportHistory.isEmpty {
+                emptyHistoryView
+            } else {
+                historyListView
+            }
+        }
+        .alert("错误详情", isPresented: $showingErrorDetail) {
+            Button("确定") { }
+        } message: {
+            Text(selectedError)
         }
     }
 
@@ -16,14 +25,16 @@ struct ReportHistoryView: View {
             historyHeader
             List {
                 ForEach(nowPlayingVM.reportHistory.prefix(100)) { report in
-                    ReportRow(report: report)
+                    ReportRow(report: report, showingErrorDetail: $showingErrorDetail, selectedError: $selectedError)
                         .listRowBackground(Color.clear)
                 }
             }
             .listStyle(.plain)
             .scrollContentBackground(.hidden)
-            .frame(maxHeight: 300)
+            .scrollIndicators(.hidden)
+            .frame(maxWidth: .infinity)
         }
+        .frame(maxHeight: .infinity, alignment: .top)
     }
 
     private var historyHeader: some View {
@@ -58,6 +69,8 @@ struct ReportHistoryView: View {
 
 struct ReportRow: View {
     let report: MusicData
+    @Binding var showingErrorDetail: Bool
+    @Binding var selectedError: String
 
     var body: some View {
         HStack {
@@ -91,7 +104,8 @@ struct ReportRow: View {
         }
         .onTapGesture {
             if report.result != "success", let errorMessage = report.errorMessage {
-                // 在这里可以实现点击查看详细错误信息的功能
+                selectedError = errorMessage
+                showingErrorDetail = true
             }
         }
     }

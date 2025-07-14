@@ -94,12 +94,12 @@ struct ContentView: View {
         }
         .padding(20)
         .background(
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 8)
                 .fill(Material.ultraThin)
-                .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 5)
+                .shadow(color: Color.black.opacity(0.1), radius: 6, x: 0, y: 3)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.gray.opacity(0.2), lineWidth: 1)
         )
     }
@@ -111,10 +111,10 @@ struct ContentView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 120, height: 120)
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    .shadow(radius: 8)
+                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .shadow(radius: 4)
             } else {
-                RoundedRectangle(cornerRadius: 15)
+                RoundedRectangle(cornerRadius: 6)
                     .fill(Color.gray.opacity(0.3))
                     .frame(width: 120, height: 120)
                     .overlay(
@@ -142,7 +142,7 @@ struct ContentView: View {
         }
         .padding(40)
         .background(
-            RoundedRectangle(cornerRadius: 20)
+            RoundedRectangle(cornerRadius: 8)
                 .fill(Material.ultraThin)
         )
     }

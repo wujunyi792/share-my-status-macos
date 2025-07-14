@@ -10,7 +10,9 @@ struct SettingsView: View {
     @State private var urlValidationMessage: String = ""
     @State private var showingAppPicker = false
     @State private var showingResetAlert = false
+    @State private var showingRestoreDefaultAlert = false
     @State private var isBlacklistExpanded = true
+    @State private var hasChanges: Bool = false
 
     private var tempBlacklistBinding: Binding<String> {
         Binding<String>(
@@ -21,15 +23,11 @@ struct SettingsView: View {
 
     var body: some View {
         ZStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-
-
-                    apiConfigSection
-                    blacklistSection
-                }
-                .padding(20)
+            VStack(alignment: .leading, spacing: 16) {
+                apiConfigSection
+                blacklistSection
             }
+            .padding(40)
 
             if showSaveSuccess {
                 VStack {
@@ -41,13 +39,16 @@ struct SettingsView: View {
                 }
                 .padding()
                 .background(Color.secondary.opacity(0.2))
-                .cornerRadius(10)
+                .cornerRadius(6)
                 .transition(.opacity)
             }
         }
-        .frame(minWidth: 480, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity)
+        .frame(maxHeight: .infinity, alignment: .top)
         .onAppear(perform: loadSettings)
-        .onChange(of: tempEndpointURL, perform: validateURL)
+        .onChange(of: tempEndpointURL) { _, _ in validateURL(tempEndpointURL) }
+        .onChange(of: tempAPIKey) { _, _ in checkForChanges() }
+        .onChange(of: tempEndpointURL) { _, _ in checkForChanges() }
+        .onChange(of: tempBlacklistArray) { _, _ in checkForChanges() }
         .sheet(isPresented: $showingAppPicker) {
             AppPickerView(blacklist: $tempBlacklistArray)
         }
@@ -55,12 +56,18 @@ struct SettingsView: View {
             actionButtons
                 .padding(.horizontal)
                 .padding(.top, 10)
-                .padding(.bottom, 20)
+                .padding(.bottom, 40)
         
         }
         .alert("确认重置？", isPresented: $showingResetAlert) {
             Button("重置", role: .destructive, action: resetSettings)
             Button("取消", role: .cancel) { }
+        }
+        .alert("确认恢复默认值？", isPresented: $showingRestoreDefaultAlert) {
+            Button("恢复", role: .destructive, action: restoreDefaultBlacklist)
+            Button("取消", role: .cancel) { }
+        } message: {
+            Text("这将恢复系统的初始黑名单配置")
         }
     }
 
@@ -109,7 +116,7 @@ struct SettingsView: View {
                 TextEditor(text: tempBlacklistBinding)
                     .frame(height: 100)
                     .border(Color.gray.opacity(0.2), width: 1)
-                    .cornerRadius(5)
+                    .cornerRadius(6)
                     .font(Font.system(.body).monospaced())
             }
             .padding(.vertical, 10)
@@ -120,6 +127,15 @@ struct SettingsView: View {
                     .font(.headline)
                     
                 Spacer()
+                Button {
+                    showingRestoreDefaultAlert = true
+                } label: {
+                    Label("恢复默认值", systemImage: "arrow.clockwise")
+                        .controlSize(.small)
+                }
+                .buttonStyle(.bordered)
+                .tint(.orange)
+                
                 Button {
                     showingAppPicker = true
                 } label: {
@@ -148,7 +164,7 @@ struct SettingsView: View {
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.extraLarge)
-            .disabled(tempEndpointURL.isEmpty || tempAPIKey.isEmpty || !urlValidationMessage.isEmpty)
+            .disabled(tempEndpointURL.isEmpty || tempAPIKey.isEmpty || !urlValidationMessage.isEmpty || !hasChanges)
         }
     }
 
@@ -157,6 +173,7 @@ struct SettingsView: View {
         tempEndpointURL = settings.endpointURL
         tempBlacklistArray = settings.blacklist
         validateURL(tempEndpointURL)
+        hasChanges = false
     }
 
     private func validateURL(_ url: String) {
@@ -179,6 +196,7 @@ struct SettingsView: View {
         settings.apiKey = tempAPIKey
         settings.endpointURL = tempEndpointURL
         settings.blacklist = tempBlacklistArray
+        hasChanges = false
 
         withAnimation {
             showSaveSuccess = true
@@ -189,6 +207,17 @@ struct SettingsView: View {
                 showSaveSuccess = false
             }
         }
+    }
+
+    private func checkForChanges() {
+        hasChanges = tempAPIKey != settings.apiKey ||
+                    tempEndpointURL != settings.endpointURL ||
+                    tempBlacklistArray != settings.blacklist
+    }
+
+    private func restoreDefaultBlacklist() {
+        tempBlacklistArray = ["com.apple.Safari", "com.google.Chrome", "com.mozilla.firefox", "com.microsoft.Edge", "com.operasoftware.Opera", "com.brave.Browser", "com.vivaldi.Vivaldi"]
+        checkForChanges()
     }
 
     private func resetSettings() {
