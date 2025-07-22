@@ -45,10 +45,10 @@ struct SettingsView: View {
         }
         .frame(maxHeight: .infinity, alignment: .top)
         .onAppear(perform: loadSettings)
-        .onChange(of: tempEndpointURL) { _, _ in validateURL(tempEndpointURL) }
-        .onChange(of: tempAPIKey) { _, _ in checkForChanges() }
-        .onChange(of: tempEndpointURL) { _, _ in checkForChanges() }
-        .onChange(of: tempBlacklistArray) { _, _ in checkForChanges() }
+        .onChange(of: tempEndpointURL) { newValue in validateURL(newValue) }
+        .onChange(of: tempAPIKey) { _ in checkForChanges() }
+        .onChange(of: tempEndpointURL) { _ in checkForChanges() }
+        .onChange(of: tempBlacklistArray) { _ in checkForChanges() }
         .sheet(isPresented: $showingAppPicker) {
             AppPickerView(blacklist: $tempBlacklistArray)
         }
@@ -59,8 +59,8 @@ struct SettingsView: View {
                 .padding(.bottom, 40)
         
         }
-        .alert("确认重置？", isPresented: $showingResetAlert) {
-            Button("重置", role: .destructive, action: resetSettings)
+        .alert("确认撤销编辑？", isPresented: $showingResetAlert) {
+            Button("撤销", role: .destructive, action: resetSettings)
             Button("取消", role: .cancel) { }
         }
         .alert("确认恢复默认值？", isPresented: $showingRestoreDefaultAlert) {
@@ -140,7 +140,7 @@ struct SettingsView: View {
                     showingAppPicker = true
                 } label: {
                     Label("从已安装的应用选择", systemImage: "plus.circle.fill")
-                        .controlSize(.extraLarge)
+                        .controlSize(.large)
                 }
             }
         }
@@ -151,11 +151,12 @@ struct SettingsView: View {
             Button(action: {
                 showingResetAlert = true
             }) {
-                Text("重置")
+                Text("撤销")
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.bordered)
-            .controlSize(.extraLarge)
+            .controlSize(.large)
+            .disabled(!hasChanges)
             .tint(.red)
 
             Button(action: saveSettings) {
@@ -163,7 +164,7 @@ struct SettingsView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
-            .controlSize(.extraLarge)
+            .controlSize(.large)
             .disabled(tempEndpointURL.isEmpty || tempAPIKey.isEmpty || !urlValidationMessage.isEmpty || !hasChanges)
         }
     }

@@ -83,7 +83,7 @@ struct AppPickerView: View {
                 }
                 .buttonStyle(.bordered)
                 .tint(.red)
-                .controlSize(.extraLarge)
+                .controlSize(.large)
 
                 Spacer()
 
@@ -91,7 +91,7 @@ struct AppPickerView: View {
                     presentationMode.wrappedValue.dismiss()
                 }
                 .buttonStyle(.borderedProminent)
-                .controlSize(.extraLarge)
+                .controlSize(.large)
             }
             .padding()
         }
