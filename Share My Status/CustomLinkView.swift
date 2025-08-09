@@ -69,56 +69,18 @@ struct CustomLinkView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("预览效果")
                         .font(.headline)
-                    
+
                     if !nowPlayingVM.title.isEmpty && !nowPlayingVM.artist.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
-                            HStack(alignment: .top) {
-                                if let artwork = nowPlayingVM.artwork {
-                                    Image(nsImage: artwork)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 50, height: 50)
-                                        .clipShape(RoundedRectangle(cornerRadius: 4))
-                                        .shadow(radius: 2)
-                                } else {
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(Color.gray.opacity(0.3))
-                                        .frame(width: 50, height: 50)
-                                        .overlay(
-                                            Image(systemName: "music.note")
-                                                .foregroundColor(.white)
-                                        )
-                                }
-                                
-                                Text(previewText)
-                                    .font(.system(size: 15, weight: .medium))
-                                    .lineLimit(3)
-                                    .padding(.leading, 8)
-                            }
-                            
-                            if !redirectUrl.isEmpty && isValidRedirectUrl {
-                                HStack {
-                                    Image(systemName: "arrow.right.circle")
-                                        .foregroundColor(.blue)
-                                    Text("点击后跳转至: \(redirectUrl)")
-                                        .font(.caption)
-                                        .foregroundColor(.blue)
-                                }
-                            }
+                        HStack {
+                            Text("🎵")
+                            Text(previewText)
+                                .foregroundColor(.blue)
+                                .underline()
                         }
-                        .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 8).fill(Color.secondary.opacity(0.1)))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                        )
                     } else {
                         Text("播放音乐后将在此处显示预览效果")
                             .foregroundColor(.secondary)
                             .italic()
-                            .padding(12)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .background(RoundedRectangle(cornerRadius: 8).fill(Color.secondary.opacity(0.05)))
                     }
                 }
                 
