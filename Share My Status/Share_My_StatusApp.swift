@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
     }
     
-    func showMainWindow() {
+    func showMainWindow(selectedTab: Int? = nil) {
         NSApplication.shared.setActivationPolicy(.regular)
         NSApplication.shared.activate(ignoringOtherApps: true)
         
@@ -36,6 +36,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             window.minSize = NSSize(width: 600, height: 450)
             window.makeKeyAndOrderFront(nil)
             window.center()
+            
+            // Set the selected tab if provided
+            if let selectedTab = selectedTab, 
+               let contentView = NSApplication.shared.windows.first?.contentView?.subviews.first?.subviews.first as? NSHostingView<AnyView> {
+                NotificationCenter.default.post(name: Notification.Name("SetSelectedTab"), object: nil, userInfo: ["selectedTab": selectedTab])
+            }
         }
     }
 }

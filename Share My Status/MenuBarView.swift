@@ -112,6 +112,19 @@ struct MenuBarView: View {
             .controlSize(.large)
             
             Button(action: {
+                appDelegate.showMainWindow(selectedTab: 1)  // Open with link customization tab
+            }) {
+                HStack {
+                    Image(systemName: "link.badge.plus")
+                    Text("定制分享链接")
+                }
+                .font(.system(size: 14, weight: .medium))
+                .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.large)
+            
+            Button(action: {
                 NSApplication.shared.terminate(nil)
             }) {
                 HStack {

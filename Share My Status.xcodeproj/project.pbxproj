@@ -479,6 +479,7 @@
 					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
 					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
 					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
+					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Share-My-Status-Info.plist";
@@ -518,6 +519,7 @@
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
 					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
 					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",
 					"$(PROJECT_DIR)/Share\\ My\\ Status/Build_Dependencies",

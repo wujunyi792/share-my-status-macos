@@ -26,3 +26,6 @@ DerivedData
 Pods
 !Podfile
 !Podfile.lock
+
+.claude
+CLAUDE.md
