@@ -15,6 +15,15 @@ struct ContentView: View {
     init(nowPlayingVM: NowPlayingViewModel) {
         self.nowPlayingVM = nowPlayingVM
     }
+    
+    // Setup observer for tab selection notification
+    private func setupTabSelectionObserver() {
+        NotificationCenter.default.addObserver(forName: Notification.Name("SetSelectedTab"), object: nil, queue: .main) { notification in
+            if let selectedTab = notification.userInfo?["selectedTab"] as? Int {
+                self.selectedTab = selectedTab
+            }
+        }
+    }
 
     var body: some View {
         ZStack {
@@ -32,20 +41,29 @@ struct ContentView: View {
                     }
                     .tag(0)
 
+                CustomLinkView(nowPlayingVM: nowPlayingVM)
+                    .tabItem {
+                        Label("链接定制", systemImage: "link")
+                    }
+                    .tag(1)
+
                 SettingsView(settings: settings)
                     .tabItem {
                         Label("设置", systemImage: "gearshape.fill")
                     }
-                    .tag(1)
+                    .tag(2)
 
                 ReportHistoryView(nowPlayingVM: nowPlayingVM)
                     .tabItem {
                         Label("上报历史", systemImage: "clock.fill")
                     }
-                    .tag(2)
+                    .tag(3)
             }
         }
         .frame(minWidth: 600, minHeight: 400)
+        .onAppear {
+            setupTabSelectionObserver()
+        }
     }
 
     private var nowPlayingTab: some View {
@@ -89,6 +107,23 @@ struct ContentView: View {
                 Text("时长: \(nowPlayingVM.duration)")
                     .font(.body)
                     .foregroundColor(.secondary)
+                    
+                Button(action: {
+                    selectedTab = 1  // Switch to Link Customization tab
+                }) {
+                    HStack {
+                        Image(systemName: "link.badge.plus")
+                        Text("定制链接")
+                    }
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    .background(
+                        RoundedRectangle(cornerRadius: 4)
+                            .fill(Color.blue.opacity(0.1))
+                    )
+                }
+                .buttonStyle(PlainButtonStyle())
+                .padding(.top, 8)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
