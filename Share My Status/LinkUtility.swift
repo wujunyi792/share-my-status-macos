@@ -1,14 +1,19 @@
 import Foundation
 
 class LinkUtility {
-    /// The base URL for share links
-    static let baseUrlPrefix = "https://lark.mjclouds.com/link?u="
-    
     /// Validates if a string is a valid base URL for the share link system
     /// - Parameter url: The URL string to validate
     /// - Returns: Boolean indicating if the URL is valid
     static func isValidBaseUrl(_ url: String) -> Bool {
-        return url.starts(with: baseUrlPrefix)
+        guard !url.isEmpty else { return false }
+        guard url.starts(with: "http://") || url.starts(with: "https://") else { return false }
+        
+        // 检查是否包含u参数
+        if let urlComponents = URLComponents(string: url) {
+            let queryItems = urlComponents.queryItems ?? []
+            return queryItems.contains { $0.name == "u" }
+        }
+        return false
     }
     
     /// Validates if a string is a valid redirect URL
@@ -20,7 +25,7 @@ class LinkUtility {
     
     /// Creates a customized share URL with the given parameters
     /// - Parameters:
-    ///   - baseUrl: The base URL string (must start with the baseUrlPrefix)
+    ///   - baseUrl: The base URL string (must start with http:// or https://)
     ///   - redirectUrl: Optional redirect URL
     ///   - displayFormat: Optional display format string with placeholders
     /// - Returns: The customized URL string, or nil if the base URL is invalid
@@ -34,14 +39,18 @@ class LinkUtility {
         // Add redirect URL if provided
         if let redirectUrl = redirectUrl, !redirectUrl.isEmpty, isValidRedirectUrl(redirectUrl) {
             if let encodedRedirectUrl = redirectUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                components += "&r=" + encodedRedirectUrl
+                // Check if base URL already has query parameters
+                let separator = components.contains("?") ? "&" : "?"
+                components += separator + "r=" + encodedRedirectUrl
             }
         }
         
         // Add display format if provided
         if let displayFormat = displayFormat, !displayFormat.isEmpty {
             if let encodedDisplayFormat = displayFormat.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                components += "&m=" + encodedDisplayFormat
+                // Check if we need to add ? or &
+                let separator = components.contains("?") ? "&" : "?"
+                components += separator + "m=" + encodedDisplayFormat
             }
         }
         
@@ -67,16 +76,12 @@ class LinkUtility {
     /// - Parameter url: The customized URL to parse
     /// - Returns: A tuple containing the base URL, redirect URL (if any), and display format (if any)
     static func parseCustomizedUrl(_ url: String) -> (baseUrl: String, redirectUrl: String?, displayFormat: String?)? {
-        guard url.starts(with: baseUrlPrefix),
-              let urlComponents = URLComponents(string: url) else {
+        guard let urlComponents = URLComponents(string: url) else {
             return nil
         }
         
         // Extract the query parameters
         let queryItems = urlComponents.queryItems ?? []
-        
-        // Find the base URL (u parameter)
-        let uValue = queryItems.first(where: { $0.name == "u" })?.value
         
         // Find the redirect URL (r parameter)
         let rValue = queryItems.first(where: { $0.name == "r" })?.value
@@ -84,12 +89,13 @@ class LinkUtility {
         // Find the display format (m parameter)
         let mValue = queryItems.first(where: { $0.name == "m" })?.value
         
-        // Construct the base URL
-        guard let uValue = uValue else {
+        // Remove r and m parameters to get the base URL
+        var baseUrlComponents = urlComponents
+        baseUrlComponents.queryItems = queryItems.filter { $0.name != "r" && $0.name != "m" }
+        
+        guard let baseUrl = baseUrlComponents.url?.absoluteString else {
             return nil
         }
-        
-        let baseUrl = baseUrlPrefix + uValue
         
         // Decode the display format if it exists
         let displayFormat = mValue?.removingPercentEncoding

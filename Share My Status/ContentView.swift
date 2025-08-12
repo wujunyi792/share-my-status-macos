@@ -70,14 +70,14 @@ struct ContentView: View {
         VStack {
             VStack(spacing: 15) {
 
+                reportingControlsView
 
-                if nowPlayingVM.title.isEmpty || nowPlayingVM.artist.isEmpty {
+                if nowPlayingVM.title.isEmpty || nowPlayingVM.artist.isEmpty || nowPlayingVM.title == "未知标题" {
                     emptyStateView
                 } else {
                     nowPlayingCard
                 }
-
-                reportingControlsView
+                appToolboxView
             }
             .padding(.top, 20)
             Spacer()
@@ -107,23 +107,6 @@ struct ContentView: View {
                 Text("时长: \(nowPlayingVM.duration)")
                     .font(.body)
                     .foregroundColor(.secondary)
-                    
-                Button(action: {
-                    selectedTab = 1  // Switch to Link Customization tab
-                }) {
-                    HStack {
-                        Image(systemName: "link.badge.plus")
-                        Text("定制链接")
-                    }
-                    .padding(.vertical, 5)
-                    .padding(.horizontal, 10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(Color.blue.opacity(0.1))
-                    )
-                }
-                .buttonStyle(PlainButtonStyle())
-                .padding(.top, 8)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -137,6 +120,77 @@ struct ContentView: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(Color.gray.opacity(0.2), lineWidth: 1)
         )
+    }
+
+    private var appToolboxView: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("工具箱")
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundColor(.secondary)
+            
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: 8) {
+                ToolItemView(
+                    title: "飞书签名定制",
+                    icon: "link.badge.plus",
+                    color: .blue,
+                    action: {
+                        selectedTab = 1  // Switch to Link Customization tab
+                    }
+                )
+            }
+        }
+        .padding(12)
+        .background(
+            RoundedRectangle(cornerRadius: 6)
+                .fill(Material.ultraThin)
+                .shadow(color: Color.black.opacity(0.03), radius: 2, x: 0, y: 1)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 6)
+                .stroke(Color.gray.opacity(0.08), lineWidth: 0.5)
+        )
+    }
+
+    private struct ToolItemView: View {
+        let title: String
+        let icon: String
+        let color: Color
+        let action: () -> Void
+        
+        var body: some View {
+            Button(action: action) {
+                VStack(spacing: 6) {
+                    Image(systemName: icon)
+                        .font(.title3)
+                        .foregroundColor(color)
+                    
+                    Text(title)
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                        .foregroundColor(.primary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.gray.opacity(0.03))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(color.opacity(0.15), lineWidth: 0.5)
+                        )
+                )
+            }
+            .buttonStyle(PlainButtonStyle())
+            .scaleEffect(1.0)
+            .animation(.easeInOut(duration: 0.1), value: true)
+        }
     }
 
     private var artworkView: some View {
@@ -183,13 +237,21 @@ struct ContentView: View {
     }
 
     private var reportingControlsView: some View {
-        Toggle(isOn: $settings.isReportingEnabled) {
-            Text("开启音乐状态上报")
+        HStack {
+            Text("正在播放：")
                 .font(.body)
+                .foregroundColor(.primary)
+            
+            Spacer()
+            
+            Toggle(isOn: $settings.isReportingEnabled) {
+                Text("开启音乐状态上报")
+                    .font(.body)
+            }
+            .toggleStyle(.switch)
+            .controlSize(.large)
         }
-        .toggleStyle(.switch)
-        .controlSize(.large)
-        .padding(.horizontal, 30)
+        .padding(.horizontal, 0)
     }
 }
 
